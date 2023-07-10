@@ -22,9 +22,9 @@
     preview do podcast
 </p>
 
-<p align="center">
+<div align="center">
     <audio src="output/podcast_editado.MP3" controls title="Podcast editado"></audio>
-</p>
+</div>
 
 # Projeto Podcast Gerado por I.A.s
 
