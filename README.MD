@@ -40,12 +40,13 @@ Utilizer uma esteira de prompts para gerar cada etapa do processo criativo.
 - [ChatGPT](https://chat.openai.com/) 
 - [MidJourney](https://www.midjourney.com/app/)
 - [ElevenLabs](https://beta.elevenlabs.io/)
+- [60db](https://60db.ai/) — geração de áudio via API (automatizado em `src/sixtydb.js`)
 - [Capcut](https://www.capcut.com/pt-br/)
 
 ## ✨ Como foi feito ?
 
 - Roteiro gerado via chatgpt
-- Audio gerado pela elevenLabs
+- Audio gerado pela elevenLabs (manual) **ou** pela 60db (automatizado via `src/sixtydb.js`)
 - Midjourney Para gerar capas
 - Capcut para tratar aúdio e adicionar sons de fundo
 
@@ -61,8 +62,37 @@ Utilizer uma esteira de prompts para gerar cada etapa do processo criativo.
 Utilize os prompts dentro do link do `Notion` fornecido na parte de `Materiais` para criar um podcast de maneira automatizada, para isso siga o passo a passo abaixo.
 
 - 🤖 1. Use os prompts de roteiro no `chagpt`
-- 🤖 2. Use os prompts de roteiro gerados pelo chatgpt no  `ElevenLabs`
+- 🤖 2. Use os prompts de roteiro gerados pelo chatgpt no  `ElevenLabs` — ou gere o áudio automaticamente com o script da `60db` (ver seção abaixo)
 - 🤖 3. Use os prompts de artes no `midjourney`
+
+## 🔊 Gerando áudio com 60db (script)
+
+Em vez de colar o roteiro manualmente em um site, você pode gerar o áudio direto pela API da [60db](https://60db.ai/) usando o script `src/sixtydb.js`.
+
+**Requisito:** Node.js 18+ (usa o `fetch` nativo, sem dependências).
+
+1. Defina sua chave de API da 60db:
+
+```powershell
+# PowerShell (Windows)
+$env:SIXTYDB_API_KEY="sua-chave"
+```
+
+```bash
+# bash/zsh (Linux/macOS)
+export SIXTYDB_API_KEY="sua-chave"
+```
+
+2. Rode o script passando o texto do roteiro:
+
+```bash
+node src/sixtydb.js "Texto do roteiro gerado pelo ChatGPT" output/synthesized_audio.mp3 [voice_id]
+```
+
+- O 2º argumento (caminho de saída) é opcional — o padrão é `output/synthesized_audio.mp3`.
+- O 3º argumento (`voice_id`) é opcional — sem ele, a voz padrão da conta é usada.
+
+O script também exporta as funções `synthesize()` e `synthesizeToFile()` caso queira usá-lo a partir de outro código. As opções suportadas seguem a [documentação da 60db](https://docs.60db.ai/api-reference/tts/text-to-speech): `voice_id`, `speed` (0.5–2.0), `stability` (0–100), `similarity` (0–100), `enhance` e `output_format` (`mp3`/`wav`/`ogg`/`flac`). O limite é de **5000 caracteres** por requisição.
 
 ## 👨‍💻 Expert
 
